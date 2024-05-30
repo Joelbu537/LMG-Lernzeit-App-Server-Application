@@ -4,7 +4,7 @@ using System.Text;
 
 class Program
 {
-    static string Version = "0.0.2";
+    static string Version = "0.0.3";
     static async void Main(string[] args)
     {
         if(args.Length != 0)
@@ -29,7 +29,7 @@ class Program
                 catch (Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Out.WriteLineAsync("Connection could not be established!");
+                    Console.WriteLine("Connection could not be established!");
                     Console.WriteLine(ex.ToString());
                     Console.ResetColor();
                 }
