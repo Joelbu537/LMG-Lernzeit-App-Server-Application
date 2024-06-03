@@ -9,7 +9,15 @@ class Program
     {
         if(args.Length != 0)
         {
-            //Handle parameters
+            switch(args[0])
+            {
+                case "help":
+                    break;
+                case "reset":
+                    break;
+                case "addstudent":
+                    break;
+            }
         }
         while (true)
         {
