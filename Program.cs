@@ -40,13 +40,13 @@ class Program
         {
             while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
             {
-                string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Console.WriteLine("Received message:\r\n" + message);
-
-                string response = HandleMessage(message);
-                Console.WriteLine("Responding with:\r\n");
-                Console.WriteLine(message);
-                byte[] responseBytes = Encoding.ASCII.GetBytes(response);
+                string[] content = message.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string response = HandleMessage(content);
+                Console.WriteLine("Responding with:");
+                Console.WriteLine(response.Replace("\r\n", " "));
+                byte[] responseBytes = Encoding.UTF8.GetBytes(response);
                 stream.Write(responseBytes, 0, responseBytes.Length);
             }
         }
@@ -61,15 +61,23 @@ class Program
             client.Close();
         }
     }
-    static string HandleMessage(string message)
+    static string HandleMessage(string[] content)
     {
-        if (message == "Hello World!")
+        string email = "";
+        string hash = "";
+        switch (content[0])
         {
-            return "Hello!";
-        }
-        else
-        {
-            return "0";
+            case "login":
+                email = content[1];
+                hash = content[2];
+                //CHECK DB
+                int status = 1;//DEBUG
+                return $"login\r\n{status}";
+            case "getmods":
+
+                return "getmods\r";
+            default:
+                return "-1";
         }
     }
 }
