@@ -9,14 +9,13 @@ class Program
     {
         try
         {
-            TcpListener server = new TcpListener(IPAddress.Any, 5000);
+            TcpListener server = new TcpListener(IPAddress.Any, 33533);
             server.Start();
-            Console.WriteLine("Lise-Meitner Gymnasium Leverkusen");
-            Console.WriteLine("Server starting...");
+            Console.WriteLine("LMG Lernzeiten Server APplication Lise-Meitner Gymnasium Leverkusen");
+            Console.WriteLine("Server starting");
 
             while (true)
             {
-                Console.WriteLine("Server active");
                 TcpClient client = server.AcceptTcpClient();
                 Console.WriteLine("Connection incomming...");
                 ThreadPool.QueueUserWorkItem(HandleClient, client);
@@ -42,9 +41,11 @@ class Program
             while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
             {
                 string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                Console.WriteLine("Nachricht erhalten: " + message);
+                Console.WriteLine("Received message:\r\n" + message);
 
                 string response = HandleMessage(message);
+                Console.WriteLine("Responding with:\r\n");
+                Console.WriteLine(message);
                 byte[] responseBytes = Encoding.ASCII.GetBytes(response);
                 stream.Write(responseBytes, 0, responseBytes.Length);
             }
