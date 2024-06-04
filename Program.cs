@@ -45,7 +45,7 @@ class Program
                 string[] content = message.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 string response = HandleMessage(content);
                 Console.WriteLine("Responding with:");
-                Console.WriteLine(response.Replace("\r\n", " "));
+                Console.WriteLine(response.Replace("\n", "~").Replace("\r", "~"));
                 byte[] responseBytes = Encoding.UTF8.GetBytes(response);
                 stream.Write(responseBytes, 0, responseBytes.Length);
             }
@@ -75,7 +75,7 @@ class Program
                 return $"login\r\n{status}";
             case "getmods":
 
-                return "getmods\r";
+                return "getmods\rSchachAG\n9:00\n9:45\n4203\n8\n15\rSchule ohne Rassismus\n10:30\n11:00\n3009\n8\n3\n20";
             default:
                 return "-1";
         }
