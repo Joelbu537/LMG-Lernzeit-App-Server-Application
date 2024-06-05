@@ -17,7 +17,6 @@ class Program
             while (true)
             {
                 TcpClient client = server.AcceptTcpClient();
-                Console.WriteLine("Connection incomming...");
                 ThreadPool.QueueUserWorkItem(HandleClient, client);
             }
         }catch (Exception ex)
@@ -41,11 +40,11 @@ class Program
             while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
             {
                 string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                Console.WriteLine("Received message:\r\n" + message);
+                Console.WriteLine($"{client.Client.RemoteEndPoint} 🡢 Server:" + message);
                 string[] content = message.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 string response = HandleMessage(content);
                 Console.WriteLine("Responding with:");
-                Console.WriteLine(response.Replace("\n", "~").Replace("\r", "~"));
+                Console.WriteLine($"Server 🡢 {client.Client.RemoteEndPoint}: " + response.Replace("\n", "~").Replace("\r", "~"));
                 byte[] responseBytes = Encoding.UTF8.GetBytes(response);
                 stream.Write(responseBytes, 0, responseBytes.Length);
             }
